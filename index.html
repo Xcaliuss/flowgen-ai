@@ -4,107 +4,79 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>AI Workflows Hub</title>
 <style>
-body { margin:0; font-family:Arial; background:#0a0a0a; color:#fff; }#aurora-bg { position:fixed; inset:0; z-index:-1; background: radial-gradient(circle at 20% 30%, rgba(82,39,255,0.4), transparent), radial-gradient(circle at 80% 70%, rgba(124,255,103,0.3), transparent); animation: auroraMove 10s infinite alternate ease-in-out; } @keyframes auroraMove { 0%{filter:blur(40px)} 100%{filter:blur(80px) translateY(-30px)} }
+body { margin:0; font-family:Arial; background:#0a0a0a; color:#fff; }/* NAVBAR */ .navbar { position:fixed; top:0; width:100%; display:flex; justify-content:space-between; padding:15px 30px; background:rgba(0,0,0,0.5); backdrop-filter:blur(10px); } .navbar h2 { margin:0; } .navbar button { background:#00c6ff; border:none; padding:8px 15px; border-radius:8px; }
 
-.cursor-glow { position:fixed; width:200px; height:200px; border-radius:50%; background:radial-gradient(circle, rgba(0,255,255,0.2), transparent); pointer-events:none; transform:translate(-50%,-50%); }
+/* HERO */ .hero { height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding-top:60px; } .hero h1 { font-size:3.5rem; margin-bottom:10px; } .hero p { max-width:600px; opacity:0.8; }
 
-header { height:80vh; display:flex; flex-direction:column; justify-content:center; align-items:center; } h1 { font-size:3rem; } input { padding:12px; border-radius:8px; border:none; width:260px; }
+.cta-btn { margin-top:20px; padding:12px 25px; background:#00c6ff; border:none; border-radius:10px; font-size:1rem; cursor:pointer; }
 
-section { padding:40px 20px; } h2 { margin-bottom:20px; }
+/* SECTIONS */ section { padding:60px 20px; text-align:center; }
 
 .cards { display:flex; flex-wrap:wrap; gap:20px; justify-content:center; }
 
-.card { background:#111; padding:20px; width:220px; border-radius:12px; cursor:pointer; position:relative; transition:.3s; text-align:center; } .card:hover { transform:translateY(-10px) scale(1.05); }
+.card { background:#111; padding:20px; width:220px; border-radius:12px; cursor:pointer; transition:.3s; text-align:center; } .card:hover { transform:translateY(-10px) scale(1.05); }
 
 .card span { font-size:2rem; display:block; margin-bottom:10px; }
 
-.card::before { content:""; position:absolute; inset:-2px; border-radius:12px; background:linear-gradient(120deg,#c084fc,#f472b6,#38bdf8); filter:blur(10px); opacity:0; transition:.3s; z-index:-1; } .card:hover::before { opacity:1; }
+/* glow */ .card::before { content:""; position:absolute; inset:-2px; border-radius:12px; background:linear-gradient(120deg,#c084fc,#f472b6,#38bdf8); filter:blur(10px); opacity:0; transition:.3s; z-index:-1; } .card:hover::before { opacity:1; }
 
-.modal { position:fixed; inset:0; background:rgba(0,0,0,0.85); display:none; justify-content:center; align-items:center; } .modal-content { background:#111; padding:20px; border-radius:12px; width:90%; max-width:500px; }
+/* WORKFLOW PAGE */ .modal { position:fixed; inset:0; background:#0a0a0a; display:none; overflow:auto; } .modal-content { padding:40px; max-width:800px; margin:auto; } .step { background:#111; padding:15px; border-radius:10px; margin:10px 0; }
 
-.copy-btn { margin-top:10px; background:#7cff67; border:none; padding:8px; border-radius:6px; }
+.copy-btn { margin-top:10px; background:#7cff67; border:none; padding:10px; border-radius:6px; } .back-btn { margin-bottom:20px; cursor:pointer; color:#00c6ff; }
+
+/* FOOTER */ footer { text-align:center; padding:30px; opacity:0.6; }
 
 </style>
 </head>
-<body><div id="aurora-bg"></div>
-<div class="cursor-glow" id="cursor"></div><header>
-<h1>AI Workflows Hub</h1>
-<input id="search" placeholder="Search workflows..." />
-</header><div id="content"></div><div class="modal" id="modal">
+<body><div class="navbar">
+ <h2>FlowAI</h2>
+ <button onclick="scrollToWorkflows()">Explore</button>
+</div><div class="hero">
+ <h1>Build Faster with AI Workflows</h1>
+ <p>Discover ready-made workflows to create content, automate tasks, and grow faster using AI.</p>
+ <button class="cta-btn" onclick="scrollToWorkflows()">Get Started</button>
+</div><section id="workflows">
+ <h2>Popular Workflows</h2>
+ <div class="cards" id="cards"></div>
+</section><div class="modal" id="modal">
  <div class="modal-content" id="modalContent"></div>
-</div><script>
-const categories = {
-"💰 Make Money": [
- {t:"Make Money with AI",p:"Give 5 ways to earn money using AI"},
- {t:"Freelance Pitch",p:"Write a freelance proposal"}
-],
-"🎨 Content": [
- {t:"Content Generator",p:"Write a viral YouTube script"},
- {t:"Blog Generator",p:"Write SEO blog"},
- {t:"Story Generator",p:"Write a short story"}
-],
-"📈 Marketing": [
- {t:"Instagram Growth",p:"Generate captions"},
- {t:"Ad Copy",p:"Write ad copy"},
- {t:"SEO Keywords",p:"Give SEO keywords"}
-],
-"🎓 Study": [
- {t:"Study Assistant",p:"Explain topic simply"},
- {t:"Quiz Generator",p:"Generate MCQs"}
-],
-"💻 Coding": [
- {t:"Code Generator",p:"Write website code"},
- {t:"Debugger",p:"Fix bugs"}
-],
-"⚡ Productivity": [
- {t:"Email Writer",p:"Write email"},
- {t:"Meeting Summary",p:"Summarize meeting"},
- {t:"Smart Notes",p:"Summarize notes"}
-]
-};
+</div><footer>© 2026 FlowAI</footer><script>
+const workflows = [
+ {icon:"💰",t:"Make Money with AI",p:"Give 5 ways to earn money using AI"},
+ {icon:"🎨",t:"Content Generator",p:"Write a viral YouTube script"},
+ {icon:"📈",t:"Instagram Growth",p:"Generate captions"},
+ {icon:"🎓",t:"Study Assistant",p:"Explain topic simply"},
+ {icon:"💻",t:"Code Generator",p:"Write a website"},
+ {icon:"⚡",t:"Email Writer",p:"Write a professional email"}
+];
 
-const container=document.getElementById('content');
-
-Object.keys(categories).forEach(cat=>{
- const section=document.createElement('section');
- section.innerHTML=`<h2>${cat}</h2><div class="cards"></div>`;
- const cardBox=section.querySelector('.cards');
-
- categories[cat].forEach(item=>{
-  const c=document.createElement('div');
-  c.className='card';
-  c.innerHTML=`<span>${cat[0]}</span>${item.t}`;
-  c.onclick=()=>openModal(item);
-  cardBox.appendChild(c);
- });
-
- container.appendChild(section);
+const container=document.getElementById('cards');
+workflows.forEach(item=>{
+ const c=document.createElement('div');
+ c.className='card';
+ c.innerHTML=`<span>${item.icon}</span>${item.t}`;
+ c.onclick=()=>openWorkflow(item);
+ container.appendChild(c);
 });
 
-function openModal(item){
+function openWorkflow(item){
+ const modal=document.getElementById('modal');
  document.getElementById('modalContent').innerHTML=`
- <h2>${item.t}</h2>
+ <div class="back-btn" onclick="closeModal()">← Back</div>
+ <h1>${item.t}</h1>
+ <div class="step">Step 1: Open ChatGPT</div>
+ <div class="step">Step 2: Paste prompt</div>
+ <div class="step">Step 3: Customize output</div>
+ <h3>Prompt</h3>
  <code>${item.p}</code><br>
- <button class="copy-btn" onclick="copyText('${item.p}')">Copy Prompt</button>`;
- modal.style.display='flex';
+ <button class="copy-btn" onclick="copyText('${item.p}')">Copy Prompt</button>
+ `;
+ modal.style.display='block';
 }
 
-function copyText(t){navigator.clipboard.writeText(t);alert('Copied!');}
+function closeModal(){ document.getElementById('modal').style.display='none'; }
+function copyText(t){ navigator.clipboard.writeText(t); alert('Copied!'); }
 
-window.onclick=e=>{if(e.target.id==='modal')modal.style.display='none';}
-
-// search
-search.addEventListener('input',()=>{
- const val=search.value.toLowerCase();
- document.querySelectorAll('.card').forEach(c=>{
- c.style.display=c.innerText.toLowerCase().includes(val)?'block':'none';
- });
-});
-
-// cursor glow
-document.addEventListener('mousemove',e=>{
- cursor.style.left=e.clientX+'px';
- cursor.style.top=e.clientY+'px';
-});
+function scrollToWorkflows(){ document.getElementById('workflows').scrollIntoView({behavior:'smooth'}); }
 </script></body>
 </html>
